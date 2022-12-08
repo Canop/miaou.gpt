@@ -2,14 +2,13 @@
 
 const fetch = require('node-fetch');
 const bots = require('../../libs/bots.js');
-//const onNewMessage = require('./onNewMessage');
 const BOT_NAME = "gpt";
 const AVATAR = {
 	src:'url',
 	key:'https://miaou.dystroy.org/file-host/452a16a6a8c105fd33cb696c.png'
 };
 
-const INTRO = "gpt is a helpful and polite bot living in the Miaou chat server, a server created by @dystroy:\n";
+const INTRO = "gpt is a playful bot living in Miaou, a chat server created by @dystroy:\n";
 const MAX_CONVERSATION_LENGTH = 50;
 const conversations = new Map; // roomId -> {[messages]}
 let bot;
@@ -82,7 +81,7 @@ async function onPing(shoe, m){
     const data = await response.json();
 	console.log('data:', data);
 	if (data.choices && data.choices.length) {
-		let content = data.choices[0].text;
+		let content = data.choices[0].text.trim();
 		conv.messages.push({authorname: BOT_NAME, content });
 		shoe.botMessage(bot, `@${m.authorname} ${content}`);
 		if (data.usage && data.usage.total_tokens>3000 && conv.messages.length) {
